@@ -14,21 +14,10 @@ router.post('/register', [
     .escape()
     .trim()
     .isLength({ min: 5 }),
-    body('phone',"Phone Number should have 10 digits").notEmpty().trim().isLength({ min: 10, max:10 }),    
-    body('email',"Invalid email address")
-    .notEmpty()
-    .escape()
-    .trim().isEmail(),
-    body('password',"Password should have at least 5 characters").notEmpty().trim().isLength({ min: 5 })
+    body('phone',"Phone Number should have 10 digits").notEmpty().trim().isLength({ min: 10, max:10 })    
 ], register);
 
-router.post('/login',[
-    body('email',"Invalid email address")
-    .notEmpty()
-    .escape()
-    .trim().isEmail(),
-    body('password',"Password should have at least 5 characters").notEmpty().trim().isLength({ min: 5 })
-],login);
+router.post('/login',[],login);
 
 router.post('/registerLocation',[
     body('address',"Location should have at least 10 characters").notEmpty().trim().isLength({ min: 10 }),
