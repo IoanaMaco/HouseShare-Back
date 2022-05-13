@@ -55,10 +55,11 @@ exports.makeConnection = async (req,res,next) =>{
 
         // Check for connection
         const [already_connection] = await conn.execute(
-            "SELECT * FROM `connections` WHERE `location_id`=? and `starting_date`=? and `ending_date`=?",  [
+            "SELECT * FROM `connections` WHERE `location_id`=? and `starting_date`=? and `ending_date`=? and `helped_id`=?",  [
                 req.body.location_id,
                 req.body.starting_date,
-                req.body.ending_date
+                req.body.ending_date,
+                req.body.helped_id,
         ]);
 
         if (already_connection.length > 0) {
@@ -74,7 +75,7 @@ exports.makeConnection = async (req,res,next) =>{
             req.body.location_id,
             0,
             req.body.helped_id,
-            req.body.helper_id,
+            location_verify[0].helper_id,
             "Pending"
         ]);
 

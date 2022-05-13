@@ -13,7 +13,7 @@ exports.helperRefuseBookings = async (req,res,next) =>{
         
         // Get all helper's bookings
         const [connection_getter] = await conn.execute('SELECT * FROM `connections` where `connections_id`=?',
-            [req.body.connection_id]
+            [req.body.connections_id]
         );
 
         if (connection_getter.length === 0) {
@@ -24,8 +24,8 @@ exports.helperRefuseBookings = async (req,res,next) =>{
 
         // update in connections refused connection
         const [accept_connection] = await conn.execute(
-            'UPDATE `connections` set `status`="Refused" where `connection_id`=?',
-            [connection_getter[0].connection_id]
+            'UPDATE `connections` set `status`="Refused" where `connections_id`=?',
+            [connection_getter[0].connections_id]
         );
 
         if (accept_connection.affectedRows != 1){
