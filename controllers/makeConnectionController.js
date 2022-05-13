@@ -6,9 +6,7 @@ exports.makeConnection = async (req,res,next) =>{
 
     try{
 
-        // verificare să nu mai existe cerere pt id ul ăsta și datele alea
-
-        //check for date
+        //check for date between location's
 
 
         // Check if user is Helper
@@ -33,6 +31,28 @@ exports.makeConnection = async (req,res,next) =>{
             });           
         } 
 
+        if (location_verify[0].status == "Taken"){
+            return res.status(422).json({
+                message: "The location is already taken",
+            });           
+        } 
+
+        if (location_verify[0].status == "Waiting"){
+            
+            // update in location table location status
+            const [modify_location_status] = await conn.execute(
+                'UPDATE `locations` set `status`="Pending" where `location_id`=?',
+                [req.body.location_id]
+            );
+
+            if (modify_location_status.affectedRows != 1){
+                return res.status(422).json({
+                    message: "The location status was not successfully updated.",
+                });
+            }
+
+        } 
+
         // Check for connection
         const [already_connection] = await conn.execute(
             "SELECT * FROM `connections` WHERE `location_id`=? and `starting_date`=? and `ending_date`=?",  [
@@ -55,7 +75,7 @@ exports.makeConnection = async (req,res,next) =>{
             0,
             req.body.helped_id,
             req.body.helper_id,
-            "Initiated"
+            "Pending"
         ]);
 
         if (connection_insert.affectedRows === 0) {

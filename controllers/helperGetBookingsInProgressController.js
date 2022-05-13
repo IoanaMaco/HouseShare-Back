@@ -3,7 +3,7 @@ const conn = require('../dbConnection').promise();
 const {validationResult} = require('express-validator');
 const { range } = require('express/lib/request');
 
-exports.getHelpersBookings = async (req,res,next) =>{
+exports.helpersgetBookingsInProgress = async (req,res,next) =>{
 
     try{
 
@@ -14,7 +14,7 @@ exports.getHelpersBookings = async (req,res,next) =>{
 
         if (bookings.length === 0) {
             return res.status(422).json({
-                message: "There are no bookings in the past"
+                message: "There are no bookings in progress"
             });
         }
         
@@ -32,17 +32,28 @@ exports.getHelpersBookings = async (req,res,next) =>{
                 });
             }        
         
-            if ((location_getter[0].status == "Taken")
-                && (bookings[i].status=="Accepted")){
+            if ((location_getter[0].status == "Pending")
+                && (bookings[i].status =="Waiting")){
+
+                // Get all helped's details
+                const [helped_getter] = await conn.execute('SELECT * FROM `users` where `user_id`=?',
+                    [bookings[i].helped_id]
+                );
+
+                if (helped_getter.length === 0) {
+                    return res.status(422).json({
+                        message: "There are no details into the location"
+                    });
+                }        
 
                 result.push({
                     starting_date:bookings[i].starting_date,
                     ending_date:bookings[i].ending_date,
-                    phone:location_getter[0].phone,
+                    phone:helped_getter[0].phone,
                     address:location_getter[0].address
                 })
             }
-
+            
         }
 
         res.contentType('application/json');

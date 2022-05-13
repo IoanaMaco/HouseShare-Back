@@ -5,7 +5,9 @@ const {login} = require('./controllers/loginController');
 const {registerLocation} = require('./controllers/registerLocationController');
 const {makeConnection} = require('./controllers/makeConnectionController');
 const {getHelpersBookings} = require('./controllers/getHelpersBookingsController');
+const {helpersgetBookingsInProgress} = require('./controllers/helpersgetBookingsInProgressController');
 const {helperAcceptBookings} = require('./controllers/helperAcceptBookingsController');
+const {helperRefuseBookings} = require('./controllers/helperRefuseBookingsController');
 
 
 router.post('/register', [
@@ -30,12 +32,21 @@ router.post('/registerLocation',[
 ],registerLocation);
 
 router.post('/makeConnection', [],makeConnection);
-router.post('/deleteHelpersBookings', [
 
+router.post('/helperAcceptBookings', [
+    body('connection_id',"Connection id should exist").notEmpty().trim().isLength({ min: 1 })
+],helperAcceptBookings);
 
-],deleteHelpersBookings);
+router.post('/helperRefuseBookings', [
+    body('connection_id',"Connection id should exist").notEmpty().trim().isLength({ min: 1 })
+],helperRefuseBookings);
 
 router.get('/getHelpersBookings/:helper_id',getHelpersBookings);
+
+router.get('/helpersgetBookingsInProgress/:helper_id',helpersgetBookingsInProgress);
+
+
+
 
 
 module.exports = router;

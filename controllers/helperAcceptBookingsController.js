@@ -22,24 +22,48 @@ exports.helperAcceptBookings = async (req,res,next) =>{
             });
         }
 
-        // delete from table
+        // update in connections accepted connection
         const [accept_connection] = await conn.execute(
-            'UPDATE `connections` set `completed`=1, `status`="Finished" where `connection_id`=?',
+            'UPDATE `connections` set `status`="Accepted" where `connection_id`=?',
             [connection_getter[0].connection_id]
         );
 
-            ////////////locatia
-
-
-        if (accept_connection.affectedRows === 1) {
-            return res.status(201).json({
-                message: "The connection was successfully updated.",
-            });
-        } else{
+        if (accept_connection.affectedRows != 1){
             return res.status(422).json({
                 message: "The connection was not successfully updated.",
             });
         }
+
+        // update in connections refused connection
+        const [refuse_connection] = await conn.execute(
+            'UPDATE `connections` set `status`="Refused" where `location_id`=? and `connection_id`!=?',
+            [
+                connection_getter[0].location_id,
+                connection_getter[0].connection_id
+            ]
+        );
+
+        if (refuse_connection.affectedRows != 1){
+            return res.status(422).json({
+                message: "The other connections status were not successfully updated.",
+            });
+        }
+
+        // update in location table
+        const [modify_location] = await conn.execute(
+            'UPDATE `locations` set `status`="Taken" where `connection_id`=?',
+            [connection_getter[0].connection_id]
+        );
+
+        if (modify_location.affectedRows != 1){
+            return res.status(422).json({
+                message: "The location status was not successfully updated.",
+            });
+        }
+
+        return res.status(201).json({
+            message: "The connection was successfully updated.",
+        });
 
     }
     catch(err){
