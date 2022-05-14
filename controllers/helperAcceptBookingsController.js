@@ -34,6 +34,7 @@ exports.helperAcceptBookings = async (req,res,next) =>{
             });
         }
 
+
         // update in connections refused connection
         const [refuse_connection] = await conn.execute(
             'UPDATE `connections` set `status`="Refused" where `location_id`=? and `connections_id`!=?',
@@ -42,12 +43,6 @@ exports.helperAcceptBookings = async (req,res,next) =>{
                 connection_getter[0].connections_id
             ]
         );
-
-        if (refuse_connection.affectedRows != 1){
-            return res.status(422).json({
-                message: "The other connections status were not successfully updated.",
-            });
-        }
 
         // update in location table
         const [modify_location] = await conn.execute(

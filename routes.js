@@ -6,6 +6,9 @@ const {registerLocation} = require('./controllers/registerLocationController');
 const {makeConnection} = require('./controllers/makeConnectionController');
 const {getHelpersBookings} = require('./controllers/getHelpersBookingsController');
 const {helpersgetBookingsInProgress} = require('./controllers/helperGetBookingsInProgressController');
+const {helpedBookingsInProgress} = require('./controllers/helpedBookingsInProgressController');
+const {helpedPastBookings} = require('./controllers/helpedPastBookingsController');
+
 const {helperAcceptBookings} = require('./controllers/helperAcceptBookingsController');
 const {helperRefuseBookings} = require('./controllers/helperRefuseBookingsController');
 
@@ -44,6 +47,10 @@ router.post('/helperRefuseBookings', [
 router.get('/getHelpersBookings/:helper_id',getHelpersBookings);
 
 router.get('/helpersgetBookingsInProgress/:helper_id',helpersgetBookingsInProgress);
+
+router.get('/helpedBookingsInProgress/:helped_id',helpedBookingsInProgress);
+
+router.get('/helpedPastBookings/:helped_id',helpedPastBookings);
 
 
 
