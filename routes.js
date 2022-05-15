@@ -8,6 +8,7 @@ const {getHelpersBookings} = require('./controllers/getHelpersBookingsController
 const {helpersgetBookingsInProgress} = require('./controllers/helperGetBookingsInProgressController');
 const {helpedBookingsInProgress} = require('./controllers/helpedBookingsInProgressController');
 const {helpedPastBookings} = require('./controllers/helpedPastBookingsController');
+const {helpedGetLocations} = require('./controllers/helpedGetLocationsController');
 
 const {helperAcceptBookings} = require('./controllers/helperAcceptBookingsController');
 const {helperRefuseBookings} = require('./controllers/helperRefuseBookingsController');
@@ -51,6 +52,8 @@ router.get('/helpersgetBookingsInProgress/:helper_id',helpersgetBookingsInProgre
 router.get('/helpedBookingsInProgress/:helped_id',helpedBookingsInProgress);
 
 router.get('/helpedPastBookings/:helped_id',helpedPastBookings);
+
+router.get('/helpedGetLocations/',helpedGetLocations);
 
 
 

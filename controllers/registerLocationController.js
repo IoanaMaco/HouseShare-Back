@@ -40,14 +40,16 @@ exports.registerLocation = async(req,res,next) => {
 
 
         // Insert location into database
-        const [insert_location] = await conn.execute('INSERT INTO `locations`(`helper_id`,`address`,`starting_date`,`ending_date`,`sleeping_capacity`,`phone`,`status`) VALUES(?,?,?,?,?,?,?)',[
+        const [insert_location] = await conn.execute('INSERT INTO `locations`(`helper_id`,`address`,`starting_date`,`ending_date`,`sleeping_capacity`,`phone`,`status`,`latitude`,`longitude`) VALUES(?,?,?,?,?,?,?,?,?)',[
             req.body.helper_id,
             req.body.address,
             req.body.starting_date,
             req.body.ending_date,
             req.body.sleeping_capacity,
             req.body.phone,
-            "Waiting"
+            "Waiting",
+            req.body.latitude,
+            req.body.longitude
         ]);
         
         if (insert_location.affectedRows != 1) {
