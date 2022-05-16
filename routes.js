@@ -6,9 +6,11 @@ const {registerLocation} = require('./controllers/registerLocationController');
 const {makeConnection} = require('./controllers/makeConnectionController');
 const {getHelpersBookings} = require('./controllers/getHelpersBookingsController');
 const {helpersgetBookingsInProgress} = require('./controllers/helperGetBookingsInProgressController');
+
 const {helpedBookingsInProgress} = require('./controllers/helpedBookingsInProgressController');
 const {helpedPastBookings} = require('./controllers/helpedPastBookingsController');
 const {helpedGetLocations} = require('./controllers/helpedGetLocationsController');
+const {helpedDeleteConnection} = require('./controllers/helpedDeleteConnectionController');
 
 const {helperAcceptBookings} = require('./controllers/helperAcceptBookingsController');
 const {helperRefuseBookings} = require('./controllers/helperRefuseBookingsController');
@@ -44,6 +46,10 @@ router.post('/helperAcceptBookings', [
 router.post('/helperRefuseBookings', [
     body('connections_id',"Connection id should exist").notEmpty().trim().isLength({ min: 1 })
 ],helperRefuseBookings);
+
+router.post('/helpedDeleteConnection', [
+    body('connections_id',"Connection id should exist").notEmpty().trim().isLength({ min: 1 })
+],helpedDeleteConnection);
 
 router.get('/getHelpersBookings/:helper_id',getHelpersBookings);
 

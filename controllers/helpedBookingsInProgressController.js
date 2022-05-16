@@ -40,7 +40,8 @@ exports.helpedBookingsInProgress = async (req,res,next) =>{
                     ending_date:bookings[i].ending_date,
                     phone:location_getter[0].phone,
                     address:location_getter[0].address,
-                    status: bookings[i].status
+                    status: bookings[i].status,
+                    connections_id: bookings[i].connections_id
                 })
             }
 

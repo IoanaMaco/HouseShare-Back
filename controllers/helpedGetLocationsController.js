@@ -22,8 +22,9 @@ exports.helpedGetLocations = async (req,res,next) =>{
                 location_id:locations[i].location_id,
                 starting_date:locations[i].starting_date,
                 ending_date:locations[i].ending_date,
-                phone:locations[0].phone,
-                address:locations[0].address,
+                phone:locations[i].phone,
+                address:locations[i].address,
+                sleeping_capacity: locations[i].sleeping_capacity,
                 latitude: locations[i].latitude,
                 longitude: locations[i].longitude
             })

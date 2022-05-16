@@ -39,7 +39,8 @@ exports.getHelpersBookings = async (req,res,next) =>{
                     starting_date:bookings[i].starting_date,
                     ending_date:bookings[i].ending_date,
                     phone:location_getter[0].phone,
-                    address:location_getter[0].address
+                    address:location_getter[0].address,
+                    connections_id: bookings[i].connections_id
                 })
             }
 
