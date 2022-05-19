@@ -5,7 +5,8 @@ const db_connection = mysql
     host: "myDB",
     user: "root", // USER NAME
     database: "pweb", // DATABASE NAME
-    password: "1234" // DATABASE PASSWORD
+    password: "1234", // DATABASE PASSWORD
+    port: "3307"
   })
   .on("error", (err) => {
     console.log("Failed to connect to Database - ", err);
