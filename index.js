@@ -3,6 +3,7 @@ const express = require('express');
 const routes = require('./routes');
 var cors = require('cors');
 const app = express();
+var amqp = require('amqplib/callback_api');
 
 app.use(cors());
 app.use(express.json());
@@ -18,5 +19,6 @@ app.use((err, req, res, next) => {
     });
 
 });
+
 
 app.listen(3000,() => console.log('Server is running on port 3000'));

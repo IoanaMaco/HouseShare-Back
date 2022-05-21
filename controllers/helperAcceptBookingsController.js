@@ -2,11 +2,10 @@ const jwt = require('jsonwebtoken');
 const conn = require('../dbConnection').promise();
 const {validationResult} = require('express-validator');
 const nodemailer = require("nodemailer");
+var amqp = require('amqplib/callback_api');
 
 exports.helperAcceptBookings = async (req,res,next) =>{
     const errors = validationResult(req);
-
-    
 
     if(!errors.isEmpty()){
         return res.status(422).json({ errors: errors.array() });
@@ -59,37 +58,36 @@ exports.helperAcceptBookings = async (req,res,next) =>{
             });
         }
 
-        let testAccount = await nodemailer.createTestAccount();
+        const [helped] = await conn.execute(
+            'SELECT * FROM `users` where `user_id`=?',
+            [connection_getter[0].helped_id]
+        );
 
-        let transporter = nodemailer.createTransport({
-            host: "smtp.ethereal.email",
-            port: 587,
-            secure: false,
-            auth: {
-            user: testAccount.user,
-            pass: testAccount.pass, 
-            },
+        amqp.connect('amqp://rabbitmq', function(error0, connection) {
+            if (error0) {
+                throw error0;
+            }
+            connection.createChannel(function(error1, channel) {
+                if (error1) {
+                    throw error1;
+                }
+
+                var queue = 'queue';
+                var email = helped[0].email;
+
+                console.log("Email: " + email);
+
+                channel.assertQueue(queue, {
+                    durable: true
+                });
+
+                channel.sendToQueue(queue, Buffer.from(email));
+                console.log(" [x] Sent %s", email);
+
+            });
         });
 
-        let info = await transporter.sendMail({
-            from: '"Seful Sandu 👻" <sandu@yahoo.com>', // sender address
-            to: ", ioana9991@yahoo.com", // list of receivers
-            subject: "Buna ✔", // Subject line
-            text: "Buna?", // plain text body
-            html: "<b>Buna?</b>", // html body
-        });
-
-        console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-      
-        // Preview only available when sending through an Ethereal account
-        console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-
-
-
-        return res.status(201).json({
-            message: "The connection was successfully updated.",
-        });
+       
 
     }
     catch(err){
