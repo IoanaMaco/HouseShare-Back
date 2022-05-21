@@ -84,6 +84,10 @@ exports.helperAcceptBookings = async (req,res,next) =>{
                 channel.sendToQueue(queue, Buffer.from(email));
                 console.log(" [x] Sent %s", email);
 
+                return res.json({
+                    email,
+                });
+
             });
         });
 

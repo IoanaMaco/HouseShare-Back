@@ -35,7 +35,7 @@ amqp.connect('amqp://rabbitmq', function(error0, connection) {
             let mailDetails = {
                 from: 'house_share@gmail.com',
                 to: msg.content.toString(),
-                subject: 'Test mail',
+                subject: 'Request Accepted',
                 text: 'Your request was accepted! Bravo!'
             };
 
