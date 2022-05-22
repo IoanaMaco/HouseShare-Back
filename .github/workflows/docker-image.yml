@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag back
+      
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Load In Swarm
+      run: curl -XPOST https://9ea3-141-85-0-105.eu.ngrok.io/api/webhooks/5c17a1d8-f5e2-4c14-85d7-ec7849bce3da
+    
