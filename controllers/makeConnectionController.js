@@ -5,6 +5,7 @@ const {validationResult} = require('express-validator');
 exports.makeConnection = async (req,res,next) =>{
 
     try{
+        console.log("Enter makeConnection");
         // Check if user is Helper
         const [check_role] = await conn.execute('SELECT role as role FROM `users` where `user_id`=?',[
             req.body.helped_id

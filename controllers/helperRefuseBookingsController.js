@@ -3,6 +3,7 @@ const conn = require('../dbConnection').promise();
 const {validationResult} = require('express-validator');
 
 exports.helperRefuseBookings = async (req,res,next) =>{
+    console.log("Enter helperRefuseBookings");
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
@@ -10,7 +11,7 @@ exports.helperRefuseBookings = async (req,res,next) =>{
     }
 
     try{
-        
+
         // Get all helper's bookings
         const [connection_getter] = await conn.execute('SELECT * FROM `connections` where `connections_id`=?',
             [req.body.connections_id]

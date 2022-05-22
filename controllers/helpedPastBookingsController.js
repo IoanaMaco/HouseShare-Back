@@ -6,7 +6,7 @@ const { range } = require('express/lib/request');
 exports.helpedPastBookings = async (req,res,next) =>{
 
     try{
-
+        console.log("Enter helpedPastBookings");
         // Get all helper's bookings
         const [bookings] = await conn.execute('SELECT * FROM `connections` where `helped_id`=?',
             [req.params.helped_id]

@@ -5,7 +5,7 @@ const conn = require('../dbConnection').promise();
 
 
 exports.login = async (req,res,next) =>{
-
+    console.log("Enter login");
     const errors = validationResult(req);
     
     if(!errors.isEmpty()){

@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const conn = require('../dbConnection').promise();
 
 exports.registerLocation = async(req,res,next) => {
+    console.log("Enter registerLocation");
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){

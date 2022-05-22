@@ -6,7 +6,7 @@ const { range } = require('express/lib/request');
 exports.helpedBookingsInProgress = async (req,res,next) =>{
 
     try{
-
+        console.log("Enter helpedBookingsInProgress ");
         // Get all helped's bookings
         const [bookings] = await conn.execute('SELECT * FROM `connections` where `helped_id`=?',
             [req.params.helped_id]

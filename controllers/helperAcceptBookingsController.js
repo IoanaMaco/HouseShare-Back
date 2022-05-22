@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 var amqp = require('amqplib/callback_api');
 
 exports.helperAcceptBookings = async (req,res,next) =>{
+    console.log("Enter helperAcceptBookings");
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){

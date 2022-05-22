@@ -6,7 +6,7 @@ const { range } = require('express/lib/request');
 exports.helpedGetLocations = async (req,res,next) =>{
 
     try{
-
+        console.log("Enter helpedGetLocations");
         // Get all available bookings
         const [locations] = await conn.execute('SELECT * FROM `locations` where `status`="Waiting" or `status`="Pending"');
 

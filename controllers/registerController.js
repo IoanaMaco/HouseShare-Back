@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const conn = require('../dbConnection').promise();
 
 exports.register = async(req,res,next) => {
+    console.log("Enter register");
     const errors = validationResult(req);
 
     if(!errors.isEmpty()){
